@@ -98,6 +98,7 @@ define('ScreenShotPlugin/ParametersUtil', [
           max: 10000,
           delta: 100
         };
+        var delay  = {value:10000, title:'Render delay (ms)',min:1000,max:30000,delta:1000};      
         var time = {
           value: false,
           title: 'Extra render time',
@@ -182,6 +183,7 @@ define('ScreenShotPlugin/ParametersUtil', [
               pdfHeight: pdfHeight
             },
             time: time,
+            delay: delay
             key: key
           },
           smallrna: smrna

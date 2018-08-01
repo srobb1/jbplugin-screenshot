@@ -843,6 +843,7 @@ define("ScreenShotPlugin/View/Dialog/ScreenShotDialog", [
         var apiKey = jsParams.key.value ? (jsParams.key.extra.value === '' ? this.defaultApi : jsParams.key.extra.value) : this.defaultApi;
         // encode jsParams
         jsParams['url'] = currentUrl;
+        jsParams['customURL'] = this.params.config.customURL;
         var jsEncode = Util.encodePhantomJSSettings(jsParams);
         // put it all together
         return this.requestUrl + apiKey + '/' + jsEncode;

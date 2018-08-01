@@ -38,8 +38,15 @@ define([
 
         // PhantomJS Username
         this.config.apiKey = 'a-demo-key-with-low-quota-per-ip-address';
-        if (args.apiKey !== undefined)
-          this.config.apiKey = args.apiKey;
+
+        if( args.apiKey !== undefined )
+            this.config.apiKey = args.apiKey;
+        if( args.customURL !== undefined ) {
+            this.config.customURL = args.customURL;
+            //console.log(this.config.customURL);
+        }
+
+
         // Debug mode (does not make call to PhantomJS)
         this.config.debug = false;
         if (args.debugMode !== undefined)
@@ -79,7 +86,7 @@ define([
 
           function showScreenShotDialog() {
             new ScreenShotDialog({
-              requestUrl: thisB._getPhantomJSUrl(),
+              requestUrl: thisB.config.customURL ? thisB.config.customURL : thisB._getPhantomJSUrl(),
               browser: browser,
               config: thisB.config
             }).show();

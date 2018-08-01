@@ -28,10 +28,9 @@ define('ScreenShotPlugin/EncodeDecodeUtil', [
           url: params.url,
           renderType: params.format.value
         };
-        var renderDict = {
-          zoomFactor: params.zoom.value,
-          quality: params.quality.value
-        };
+        var outDictGET = dojo.objectToQuery(outDict);
+        var renderDict = {zoomFactor: params.zoom.value, quality: params.quality.value, resourceWait:params.delay.value};
+        var renderDictGET = dojo.objectToQuery(renderDict);
         //var outDict = {url: params.url, renderType: params.format.value, renderSettings: {zoomFactor: params.zoom.value, viewport: {width:params.width.value, height: params.height.value}}};
         // check PDF
         if (params.format.value === 'PDF') {
@@ -62,7 +61,29 @@ define('ScreenShotPlugin/EncodeDecodeUtil', [
         outDict['renderSettings'] = renderDict;
         var outString = json.stringify(outDict);
         outString = outString.replace(/\"([^(\")"]+)\":/g, "$1:");
-        return '?request=' + outString;
+
+        if (params.customURL !== undefined) {
+            //console.log(params.customURL);
+            outDictGET = outDictGET.replace(/%2526/g, '%26');
+            outDictGET = outDictGET.replace('renderType', 'format');
+            renderDictGET = renderDictGET.replace('Factor', '');
+            renderDictGET = renderDictGET.replace('resourceWait', 'delay');
+            var scaledQuality = params.quality.value/100;
+            renderDictGET = renderDictGET.replace(/quality=\d+/, 'quality='+scaledQuality );
+             var viewPortGET   = dojo.objectToQuery(renderDict['viewport']);
+            var pdfOptionsGET = dojo.objectToQuery(renderDict['pdfOptions']);
+             var outStringGET = '?'+outDictGET+'&'+viewPortGET+'&'+renderDictGET;
+             if (params.format.value === 'PDF') {
+                pdfOptionsGET = pdfOptionsGET.replace('format', 'paperFormat');
+                pdfOptionsGET = pdfOptionsGET.replace('orientation', 'paperOrientation');
+                outStringGET = outStringGET + '&' + pdfOptionsGET;
+            }
+            //console.log(outStringGET);
+            return outStringGET;
+         }
+        //console.log(outString);
+        return '?request='+outString;
+
       },
 
       decode: function (inStr, tracks) {
