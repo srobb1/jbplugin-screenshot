@@ -183,7 +183,7 @@ define('ScreenShotPlugin/ParametersUtil', [
               pdfHeight: pdfHeight
             },
             time: time,
-            delay: delay
+            delay: delay,
             key: key
           },
           smallrna: smrna
