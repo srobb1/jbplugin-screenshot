@@ -846,7 +846,10 @@ define("ScreenShotPlugin/View/Dialog/ScreenShotDialog", [
         jsParams['customURL'] = this.params.config.customURL;
         var jsEncode = Util.encodePhantomJSSettings(jsParams);
         // put it all together
-        return this.requestUrl + apiKey + '/' + jsEncode;
+        if(jsParams['customURL'] !== undefined)
+          return jsParams['customURL'] + '/' + jsEncode;
+        else 
+          return this.requestUrl + apiKey + '/' + jsEncode;
       }
     });
   });
